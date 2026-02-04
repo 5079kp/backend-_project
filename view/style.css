@@ -1,0 +1,313 @@
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: white;
+  overflow-x: hidden;
+}
+
+
+.bg-glow {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  background: #38bdf8;
+  filter: blur(200px);
+  top: -100px;
+  right: -100px;
+  z-index: -1;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 60px;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.links a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: white;
+  opacity: 0.8;
+}
+
+.links a:hover {
+  opacity: 1;
+}
+
+.dash-btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: #38bdf8;
+  color: #020617;
+  cursor: pointer;
+}
+
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 100px 80px;
+  min-height: 80vh;
+}
+
+.hero-left {
+  max-width: 600px;
+}
+
+.title {
+  font-size: 3.5rem;
+  line-height: 1.2;
+}
+
+.title span {
+  color: #38bdf8;
+}
+
+.subtitle {
+  margin: 20px 0;
+  opacity: 0.7;
+}
+
+
+.cta {
+  display: flex;
+  gap: 20px;
+}
+
+.primary {
+  background: #38bdf8;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.secondary {
+  background: transparent;
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  padding: 15px 30px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+
+.hero-right {
+  display: grid;
+  grid-template-columns: repeat(1, 200px);
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.05);
+}
+
+
+.features {
+  padding: 80px;
+  text-align: center;
+}
+
+.feature-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.feature-box {
+  background: rgba(255,255,255,0.05);
+  padding: 30px;
+  border-radius: 20px;
+  width: 200px;
+  transition: 0.3s;
+}
+
+.feature-box:hover {
+  transform: scale(1.1);
+}
+
+
+.about-hero {
+  text-align: center;
+  padding: 100px 40px;
+}
+
+.about-hero span {
+  color: #38bdf8;
+}
+
+.stack {
+  padding: 80px;
+  text-align: center;
+}
+
+.stack-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.stack-card {
+  width: 200px;
+  background: rgba(255,255,255,0.05);
+  padding: 25px;
+  border-radius: 20px;
+  transition: 0.3s;
+}
+
+.stack-card:hover {
+  transform: translateY(-10px) scale(1.1);
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px;
+}
+
+.stat-box {
+  background: rgba(255,255,255,0.05);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 150px;
+}
+
+.timeline {
+  padding: 80px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.time-item {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+/* CONTACT PAGE */
+.contact-hero {
+  text-align: center;
+  padding: 100px 40px;
+}
+
+.contact-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  padding: 60px;
+  flex-wrap: wrap;
+}
+
+.contact-info {
+  max-width: 300px;
+}
+
+.contact-info h2 {
+  margin-bottom: 20px;
+}
+
+.contact-info p {
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+.socials i {
+  margin-right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.socials i:hover {
+  color: #38bdf8;
+  transform: scale(1.2);
+}
+
+/* FORM */
+.contact-form {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 25px;
+  width: 320px;
+}
+
+.contact-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+}
+
+.field i {
+  margin-right: 10px;
+  opacity: 0.7;
+}
+
+.field input,
+.field textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  width: 100%;
+}
+
+.send-btn {
+  width: 100%;
+  margin-top: 10px;
+  background: #38bdf8;
+  border: none;
+  padding: 12px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #020617;
+  transition: 0.3s;
+}
+
+.send-btn:hover {
+  transform: scale(1.1);
+}
+
+.success {
+  display: none;
+  margin-top: 15px;
+  color: #22c55e;
+  text-align: center;
+}
