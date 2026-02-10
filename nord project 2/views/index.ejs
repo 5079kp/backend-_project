@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+</head>
+<body>
+    <div class="site-header">
+        <h1>🔥 Todo Classic List</h1>
+
+        <form class="add-form" action="/add" method="POST">
+            <input name="todo" type="text" placeholder="Enter task..." required>
+            <button class="add-btn" type="submit">Add</button>
+        </form>
+    </div>
+
+    <div class="container">
+
+<% todos.forEach(todo => { %>
+
+<div class="card">
+
+        <div class="card-content">
+            <h3><%= todo.text %></h3>
+
+            <div class="card-meta">
+                <div></div>
+                <div class="controls">
+                    <button class="btn edit-btn" onclick="openModal('<%= todo.id %>','<%= todo.text %>')">Edit</button>
+                    <a class="delete-link btn" href="/delete/<%= todo.id %>">Delete</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+<% }) %>
+
+</div>
+
+<!-- Modal -->
+
+<div id="modal">
+    <form id="editForm" method="POST">
+        <input id="editInput" name="todo" required>
+        <div style="margin-top:8px; display:flex; gap:8px; justify-content:flex-end">
+            <button type="button" id="cancelBtn" class="btn">Cancel</button>
+            <button type="submit" class="add-btn">Update</button>
+        </div>
+    </form>
+</div>
+<div class="overlay" id="overlay"></div>
+    
+   <script src="script.js"></script>
+    
+   
+</body>
+</html>
