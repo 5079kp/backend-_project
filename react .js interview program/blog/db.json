@@ -1,0 +1,37 @@
+{
+  "blogs": [
+    {
+      "id": "1",
+      "category": "Technology",
+      "title": "Introduction to React",
+      "blogger_name": "John Doe",
+      "image": "https://tse1.mm.bing.net/th/id/OIP.xFr9g_YzLzm-9LVgkrXcMgHaHI?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "description": "React is a JavaScript library for building user interfaces."
+    },
+    {
+      "id": "2",
+      "category": "Sports",
+      "title": "Cricket World Cup",
+      "blogger_name": "Jane Smith",
+      "image": "https://tse1.mm.bing.net/th/id/OIP.xFr9g_YzLzm-9LVgkrXcMgHaHI?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "description": "The Cricket World Cup is an international cricket event."
+    },
+    {
+      "id": "3",
+      "category": "Entertainment",
+      "title": "Latest Movies 2024",
+      "blogger_name": "Alice Johnson",
+      "image": "https://tse1.mm.bing.net/th/id/OIP.xFr9g_YzLzm-9LVgkrXcMgHaHI?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "description": "Check out the latest blockbuster movies releasing this year."
+    },
+    {
+      "id": "ffd7",
+      "category": "Sports",
+      "title": "cricket",
+      "blogger_name": "twenty cricket",
+      "image": "https://tse4.mm.bing.net/th/id/OIP.bLKTMhVPidK0THYc3MXxfAHaEJ?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "description": "india will world cup"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
