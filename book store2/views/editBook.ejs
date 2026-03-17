@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Book - BookHaven</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body class="form-page">
+    <div id="three-bg-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/" style="text-decoration: none;"><h2>📚 BookHaven</h2></a>
+            </div>
+            <div class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/cart" class="nav-link">Cart</a>
+                <a href="/add" class="nav-link btn-nav-primary">➕ Add Book</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="margin-top: 50px; display: flex; flex-direction: column; align-items: center; padding: 0 20px;">
+        <div class="edit-header" style="text-align: center; margin-bottom: 40px; color: white;">
+            <h1 class="hero-title">Edit Book</h1>
+            <p class="hero-subtitle">Refine and update your book's information</p>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; width: 100%; max-width: 1200px;">
+            <!-- 3D Preview Column -->
+            <div class="preview-card gsap-section" style="flex: 1; min-width: 320px; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.2); padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
+                <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Live 3D Preview</span>
+                <canvas id="book3d-preview" style="width: 100%; height: 350px; cursor: grab;"></canvas>
+                <div style="color: white; text-align: center; margin-top: 25px; width: 100%;">
+                    <h4 id="preview-title" style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= book.title %></h4>
+                    <p id="preview-author" style="opacity: 0.7; font-size: 1.1rem;">by <%= book.author %></p>
+                </div>
+            </div>
+
+            <!-- Form Column -->
+            <div class="form-wrapper gsap-section glass-card" style="flex: 1.6; min-width: 350px; padding: 40px; margin: 0;">
+                <form action="/update/<%= book._id %>" method="POST" enctype="multipart/form-data" class="modern-form">
+                    <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %>
+                        <div class="error-alert">
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <% errors.forEach(error => { %>
+                                    <li><%= error.msg %></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% } %>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Book Title</label>
+                            <input class="modern-form-input" type="text" name="title" value="<%= typeof title !== 'undefined' ? title : book.title %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Author</label>
+                            <input class="modern-form-input" type="text" name="author" value="<%= typeof author !== 'undefined' ? author : book.author %>" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Price (₹)</label>
+                            <input class="modern-form-input" type="number" step="0.01" min="0.01" name="price" value="<%= typeof price !== 'undefined' ? price : book.price %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Genre</label>
+                            <select class="modern-form-select" name="genre">
+                                <option <%= (typeof genre !== 'undefined' ? genre : book.genre) === 'Fiction' ? 'selected' : '' %>>Fiction</option>
+                                <option <%= (typeof genre !== 'undefined' ? genre : book.genre) === 'Non-Fiction' ? 'selected' : '' %>>Non-Fiction</option>
+                                <option <%= (typeof genre !== 'undefined' ? genre : book.genre) === 'Mystery' ? 'selected' : '' %>>Mystery</option>
+                                <option <%= (typeof genre !== 'undefined' ? genre : book.genre) === 'Sci-Fi' ? 'selected' : '' %>>Sci-Fi</option>
+                                <option <%= (typeof genre !== 'undefined' ? genre : book.genre) === 'Fantasy' ? 'selected' : '' %>>Fantasy</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <label class="form-label">Description</label>
+                        <textarea class="modern-form-textarea" name="description" rows="4"><%= typeof description !== 'undefined' ? description : book.description %></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 30px; background: #f9fafb; padding: 20px; border-radius: 16px; border: 2px dashed #d1d5db;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 600; color: #374151;">Update Cover Image</label>
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <img src="/uploads/<%= book.image %>" alt="Current cover" style="width: 80px; height: 110px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                            <div style="flex: 1;">
+                                <input type="file" name="image" accept="image/*" style="width: 100%; font-size: 0.9rem;">
+                                <p style="font-size: 0.8rem; color: #6b7280; margin-top: 8px;">Leave empty to keep current image. Max 5MB.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary gsap-button">
+                            <span class="btn-content">💾 Save Changes</span>
+                        </button>
+                        <a href="/" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 BookHaven. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Three.js Background Animation
+        function initBackground() {
+            const container = document.getElementById('three-bg-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            for (let i = 0; i < 4000; i++) {
+                vertices.push(THREE.MathUtils.randFloatSpread(2000));
+                vertices.push(THREE.MathUtils.randFloatSpread(2000));
+                vertices.push(THREE.MathUtils.randFloatSpread(2000));
+            }
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            const material = new THREE.PointsMaterial({ color: 0x4a90e2, size: 2 });
+            const points = new THREE.Points(geometry, material);
+            scene.add(points);
+
+            camera.position.z = 1000;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                points.rotation.x += 0.0003;
+                points.rotation.y += 0.0007;
+                renderer.render(scene, camera);
+            }
+            animate();
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // 3D Book Preview
+        let bookMesh;
+        function initBook3D() {
+            const canvas = document.getElementById('book3d-preview');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+            const textureLoader = new THREE.TextureLoader();
+            const bookTexture = textureLoader.load('/uploads/<%= book.image %>');
+
+            // Book geometry
+            const geometry = new THREE.BoxGeometry(2.5, 3.5, 0.5);
+            const materials = [
+                new THREE.MeshPhongMaterial({ color: 0xfaf7f0 }), // right
+                new THREE.MeshPhongMaterial({ color: 0x8B4513 }), // left (spine)
+                new THREE.MeshPhongMaterial({ color: 0xfaf7f0 }), // top
+                new THREE.MeshPhongMaterial({ color: 0xfaf7f0 }), // bottom
+                new THREE.MeshPhongMaterial({ map: bookTexture }), // front
+                new THREE.MeshPhongMaterial({ color: 0x8B4513 }), // back
+            ];
+            bookMesh = new THREE.Mesh(geometry, materials);
+            scene.add(bookMesh);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 0.8);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            camera.position.z = 6;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                bookMesh.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        initBackground();
+        initBook3D();
+
+        // Sync inputs with preview
+        document.querySelector('input[name="title"]').addEventListener('input', (e) => {
+            document.getElementById('preview-title').innerText = e.target.value || 'Untitled';
+        });
+        document.querySelector('input[name="author"]').addEventListener('input', (e) => {
+            document.getElementById('preview-author').innerText = 'by ' + (e.target.value || 'Unknown');
+        });
+
+        // GSAP
+        gsap.from('.edit-header', { opacity: 0, y: -50, duration: 1 });
+        gsap.from('.preview-card', { opacity: 0, x: -50, duration: 1, delay: 0.3 });
+        gsap.from('.form-wrapper', { opacity: 0, x: 50, duration: 1, delay: 0.3 });
+
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        mobileBtn?.addEventListener('click', () => {
+            mobileBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

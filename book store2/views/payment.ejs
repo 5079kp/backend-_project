@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment - BookHaven</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body class="payment-page">
+    <div id="three-bg-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
+    
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/" style="text-decoration: none;"><h2>📚 BookHaven</h2></a>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/cart" class="nav-link">Cart</a>
+            </div>
+        </div>
+    </nav>
+
+<div class="payment-container glass-card">
+        <div class="payment-header text-center mb-5">
+            <h1 class="hero-title">💳 Secure Checkout</h1>
+            <p class="hero-subtitle">Order Total: ₹ <%= total?.toFixed(2) || 0 %></p>
+        </div>
+
+        <div class="payment-summary">
+            <h3>Order Summary</h3>
+            <% if (items && items.length > 0) { %>
+                <% items.forEach(item => { %>
+                    <div class="summary-item">
+                        <span><%= item.title %> (x<%= item.quantity %>)</span>
+                        <span>₹ <%= (item.price * item.quantity).toFixed(2) %></span>
+                    </div>
+                <% }); %>
+            <% } %>
+            <div class="summary-total">
+                <strong>Total: ₹ <%= total?.toFixed(2) || 0 %></strong>
+            </div>
+        </div>
+
+        <div class="payment-methods">
+            <h3>Select Payment Method</h3>
+            <div class="payment-options">
+                <label class="payment-option">
+                    <input type="radio" name="method" value="card" checked>
+                    <div class="payment-icon">💳</div>
+                    <span>Pay with Card</span>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="method" value="upi">
+                    <div class="payment-icon">📱</div>
+                    <span>UPI Payment</span>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="method" value="netbanking">
+                    <div class="payment-icon">🏦</div>
+                    <span>Net Banking</span>
+                </label>
+                <label class="payment-option recommended">
+                    <input type="radio" name="method" value="cod">
+                    <div class="payment-icon">✅</div>
+                    <span>Cash on Delivery</span>
+                    <span class="recommended-badge">Recommended</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="payment-actions">
+            <button class="place-order-btn primary" onclick="confirmOrder()">
+                <span>🛒 Place Order - ₹ <%= total?.toFixed(2) %></span>
+                <div class="secure-badge">🔒 Secure</div>
+            </button>
+            <a href="/cart" class="back-btn secondary">← Back to Cart</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 BookHaven. Secure payments powered by modern technology.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Three.js Background
+        function initBackground() {
+            const container = document.getElementById('three-bg-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            for (let i = 0; i < 2000; i++) {
+                vertices.push(THREE.MathUtils.randFloatSpread(2000));
+                vertices.push(THREE.MathUtils.randFloatSpread(2000));
+                vertices.push(THREE.MathUtils.randFloatSpread(2000));
+            }
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            const material = new THREE.PointsMaterial({ color: 0x42b983, size: 3 });
+            const points = new THREE.Points(geometry, material);
+            scene.add(points);
+
+            camera.position.z = 1000;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                points.rotation.x += 0.001;
+                points.rotation.y += 0.0015;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+        initBackground();
+
+        let orderConfirmed = false;
+        
+        function confirmOrder() {
+            if (orderConfirmed) return;
+            orderConfirmed = true;
+            
+            const method = document.querySelector('input[name="method"]:checked').value;
+            const btn = document.querySelector('.place-order-btn');
+            
+            btn.innerHTML = '<span>Processing...</span><div class="btn-loader"></div>';
+            btn.disabled = true;
+            
+            gsap.to(btn, { scale: 0.9, duration: 0.1, yoyo: true, repeat: 1 });
+
+            setTimeout(() => {
+                // Success animation
+                gsap.to('.payment-container', { 
+                    opacity: 0, 
+                    scale: 0.9, 
+                    duration: 0.5, 
+                    onComplete: () => {
+                        alert(`Order placed successfully with ${method.toUpperCase()}!\nCheck your email for confirmation.\n\nThank you for shopping at BookHaven! 🎉`);
+                        window.location.href = '/';
+                    }
+                });
+            }, 2000);
+        }
+
+        // GSAP Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.from('.payment-container', { duration: 1, y: 100, opacity: 0, ease: "power4.out" });
+            
+            gsap.from('.payment-option', { 
+                duration: 0.8, 
+                opacity: 0, 
+                x: -20, 
+                stagger: 0.15, 
+                delay: 0.5,
+                ease: "power2.out"
+            });
+
+            gsap.from('.summary-item', { 
+                duration: 0.6, 
+                opacity: 0, 
+                y: 10, 
+                stagger: 0.1, 
+                delay: 0.8 
+            });
+
+            document.querySelectorAll('.payment-option').forEach(opt => {
+                opt.addEventListener('mouseenter', () => {
+                    gsap.to(opt, { scale: 1.03, backgroundColor: 'rgba(66, 185, 131, 0.1)', duration: 0.3 });
+                });
+                opt.addEventListener('mouseleave', () => {
+                    gsap.to(opt, { scale: 1, backgroundColor: 'transparent', duration: 0.3 });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

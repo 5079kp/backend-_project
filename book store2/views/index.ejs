@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Book Haven - Premium Book Store</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<%- include('header') -%>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>
+
+Discover <br>
+Your Next <br>
+<span>Favorite Read</span>
+
+</h1>
+
+<p>
+
+Premium collection of timeless stories and knowledge.
+
+</p>
+
+<div class="hero-buttons">
+
+<a href="#featured" class="btn primary">
+Browse Collection
+</a>
+
+<% if (typeof session !== 'undefined' && session.user && session.user.isAdmin) { %>
+<a href="/add" class="btn secondary">
+Sell Your Books
+</a>
+<% } %>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- FEATURED BOOKS -->
+
+<section id="featured" class="featured-section">
+
+<div class="container">
+
+<h2 class="section-title">
+
+Featured Collection
+
+</h2>
+
+<p class="section-subtitle">
+
+Handpicked books for readers
+
+</p>
+
+
+
+<div class="book-grid">
+
+
+<% if (books.length === 0) { %>
+
+<div class="empty">
+
+<h3>No Books Available</h3>
+
+<a href="/add" class="btn primary">
+Add Book
+</a>
+
+</div>
+
+<% } else { %>
+
+<% books.forEach(book => { %>
+
+
+<div class="card">
+
+<div class="card-image">
+
+<img src="/uploads/<%= book.image %>"
+
+onerror="this.src='https://via.placeholder.com/300x400?text=Book'">
+
+</div>
+
+
+<div class="card-content">
+
+<span class="badge">Premium</span>
+
+<h3><%= book.title %></h3>
+
+<p><%= book.author %></p>
+
+<div class="price">
+
+₹<%= book.price %>
+
+</div>
+
+
+<div class="actions">
+<a href="/book/<%= book._id %>" class="btn small primary">
+Read More
+</a>
+<a href="/cart/add/<%= book._id %>" class="btn btn-cart-hero btn-cart-success">
+🛒 Add to Cart
+</a>
+<% if (typeof session !== 'undefined' && session.user && session.user.isAdmin) { %>
+<a href="/edit/<%= book._id %>" class="btn small warning">
+Edit
+</a>
+<a href="/delete/<%= book._id %>" class="btn small danger" onclick="return confirm('Delete this book?')">
+Delete
+</a>
+<% } %>
+</div>
+
+</div>
+
+</div>
+
+
+<% }) %>
+
+<% } %>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<footer class="footer">
+
+<p>
+
+©  BookHanger
+
+</p>
+
+</footer>
+
+
+
+
+
+</body>
+</html>

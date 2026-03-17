@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart - BookHaven</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/" style="text-decoration: none;"><h2>📚 BookHaven</h2></a>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/cart" class="nav-link active">Cart</a>
+                <a href="/add" class="nav-link btn-nav-primary">➕ Add Book</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cart-container">
+        <div class="cart-header hero-title">🛒 Shopping Cart</div>
+        <p style="font-size: 1.2rem; opacity: 0.9; margin-top: -10px;">Total Items: <%= items.length %> | Total: ₹ <%= total?.toFixed(2) || 0 %></p>
+        </div>
+        
+        <% if (items.length === 0) { %>
+        <div class="empty-cart glass-card" style="max-width: 500px; margin: 0 auto; padding: 64px 32px; text-align: center;">
+                <div class="empty-icon" style="font-size: 6rem; margin-bottom: 24px;">🛒</div>
+                <h2 style="font-size: 2rem; margin-bottom: 16px; color: #374151;">Your cart is empty</h2>
+                <p style="font-size: 1.1rem; color: #6b7280; margin-bottom: 32px;">Add some amazing books to get started!</p>
+                <a href="/" class="btn btn-primary">Continue Shopping →</a>
+            </div>
+        <% } else { %>
+            <div class="cart-items glass-card" style="padding: 32px; border-radius: 24px;">
+                <% items.forEach(item => { %>
+                    <div class="cart-item">
+                        <img src="/uploads/<%= item.image %>" alt="<%= item.title %>" loading="lazy">
+                        <div class="cart-item-details">
+                            <h3><%= item.title %></h3>
+                            <p class="author">by <%= item.author || 'Unknown' %></p>
+                            <div class="price-section">
+                                <span class="price">₹ <%= (item.price * item.quantity).toFixed(2) %></span>
+                                <div class="quantity-controls">
+                                    <button class="qty-btn btn-secondary" onclick="updateQty('<%= item._id %>', -1)">−</button>
+                                    <span class="qty">x<%= item.quantity %></span>
+                                    <button class="qty-btn btn-secondary" onclick="updateQty('<%= item._id %>', 1)">+</button>
+                                </div>
+                                <small class="unit-price">₹ <%= item.price %> each</small>
+                            </div>
+                        </div>
+                        <a href="/cart/delete/<%= item._id %>" class="remove-btn btn btn-secondary" onclick="return confirm('Remove this item?')">🗑️</a>
+                    </div>
+                <% }); %>
+            </div>
+            
+            <div class="cart-summary glass-card">
+                <div class="total-section">
+                    <h3>Order Total: ₹ <%= total.toFixed(2) %></h3>
+                </div>
+                <a href="/cart/payment" class="btn btn-primary checkout-btn">🚀 Proceed to Checkout</a>
+                <a href="/" class="btn btn-secondary continue-shopping">← Continue Shopping</a>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        async function updateQty(id, change) {
+            const qtySpan = event.target.closest('.quantity-controls').querySelector('.qty');
+            let currentQty = parseInt(qtySpan.textContent.replace('x', ''));
+            const newQty = Math.max(1, currentQty + change);
+            
+            try {
+                const response = await fetch(`/cart/update/${id}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ quantity: newQty })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (data.deleted) {
+                        location.reload(); // Item deleted if qty<1
+                    } else {
+                        qtySpan.textContent = `x${data.quantity}`;
+                        // Update total (simplified)
+                        const priceSection = qtySpan.closest('.price-section');
+                        priceSection.querySelector('.price').textContent = `₹ ${data.total}`;
+                    }
+                } else {
+                    alert('Update failed: ' + data.error);
+                }
+            } catch (err) {
+                alert('Network error');
+            }
+        }
+
+        // Delete with AJAX confirmation
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+            btn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                if (confirm('Remove this item?')) {
+                    try {
+                        const response = await fetch(this.href.replace('GET', 'POST'), { // Use POST
+                            method: 'POST'
+                        });
+                        const data = await response.json();
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Remove failed: ' + data.error);
+                        }
+                    } catch (err) {
+                        alert('Network error');
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

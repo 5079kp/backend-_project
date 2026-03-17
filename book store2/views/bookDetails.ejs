@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Read: <%= book.title %> - BookHaven</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="/js/animation.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .blog-body { max-width: 900px; margin: 0 auto; padding: 100px 20px 60px; }
+        .blog-header { text-align: center; margin-bottom: 60px; }
+        .blog-title { font-family: 'Playfair Display', serif; font-size: 3rem; line-height: 1.2; margin-bottom: 20px; }
+        .blog-meta { color: #666; font-size: 1.1rem; display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+        .blog-content { font-size: 1.2rem; line-height: 1.8; color: var(--text-dark); margin-bottom: 60px; }
+        .blog-actions { background: white; padding: 40px; border-radius: 20px; box-shadow: var(--shadow-lg); display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 60px 0; }
+        .related-reading { margin-top: 100px; }
+        .related-reading .section-title { font-size: 2.2rem; text-align: center; margin-bottom: 40px; }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        @media (max-width: 768px) { .blog-title { font-size: 2.2rem; } .blog-actions { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <%- include('header') -%>
+    
+    <div class="blog-body">
+        <header class="blog-header gsap-section">
+            <h1 class="blog-title"><%= book.title %></h1>
+            <div class="blog-meta">
+                <span>by <%= book.author %></span>
+                <span>₹<%= book.price %></span>
+            </div>
+        </header>
+
+        <article class="gsap-section">
+            <div class="blog-content">
+                <%= book.description || 'A captivating narrative that transports readers to new worlds. Rich in character development and intricate plotting, this book explores profound themes through vivid storytelling.' %>
+            </div>
+        </article>
+
+        <section class="blog-actions gsap-section">
+            <a href="/cart/add/<%= book._id %>" class="btn primary btn-hero">🛒 Add to Cart</a>
+            <a href="/cart/buy/<%= book._id %>" class="btn success btn-hero">Buy Now - ₹<%= book.price %></a>
+        </section>
+
+        <% if (relatedBooks && relatedBooks.length > 0) { %>
+        <section class="related-reading gsap-section">
+            <h2 class="section-title">Further Reading</h2>
+            <div class="related-grid">
+                <% relatedBooks.slice(0, 4).forEach(related => { %>
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/uploads/<%= related.image %>" alt="<%= related.title %>" onerror="this.src='https://via.placeholder.com/300x400?text=Book'">
+                    </div>
+                    <div class="card-content">
+                        <h4><%= related.title %></h4>
+                        <p><%= related.author %></p>
+                        <div class="price">₹<%= related.price %></div>
+                        <a href="/book/<%= related._id %>" class="btn primary small">Read More</a>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        </section>
+        <% } %>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; Book Haven - Premium Book Store</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof gsap !== 'undefined' && ScrollTrigger) {
+                gsap.registerPlugin(ScrollTrigger);
+                gsap.utils.toArray('.gsap-section').forEach(section => {
+                    gsap.from(section, {
+                        scrollTrigger: { trigger: section, start: 'top 85%' },
+                        opacity: 0, y: 50, duration: 1, ease: 'power3.out'
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
