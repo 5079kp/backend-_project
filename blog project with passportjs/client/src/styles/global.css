@@ -1,0 +1,38 @@
+/* global css */
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #0b1223;
+  color: #e2e8f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: min(1140px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+button {
+  border: none;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #6366f1 0%, #9333ea 100%);
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(99, 102, 241, 0.22);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
