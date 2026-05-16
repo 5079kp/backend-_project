@@ -1,0 +1,492 @@
+/* ================================
+   TAILWIND IMPORT
+================================ */
+
+@import "tailwindcss";
+
+/* ================================
+   ROOT THEME
+================================ */
+
+:root {
+  font-family:
+    "Inter",
+    system-ui,
+    sans-serif;
+
+  line-height: 1.5;
+
+  font-weight: 400;
+
+  color-scheme: dark;
+
+  /* Luxury Theme Colors */
+  --background: #050505;
+
+  --background-light: #0b0b0b;
+
+  --card-bg: rgba(
+    255,
+    255,
+    255,
+    0.04
+  );
+
+  --glass-bg: rgba(
+    255,
+    255,
+    255,
+    0.05
+  );
+
+  --text: rgba(
+    255,
+    255,
+    255,
+    0.75
+  );
+
+  --text-light: rgba(
+    255,
+    255,
+    255,
+    0.5
+  );
+
+  --white: #ffffff;
+
+  --border: rgba(
+    255,
+    255,
+    255,
+    0.08
+  );
+
+  --primary: #ef4444;
+
+  --primary-dark: #dc2626;
+
+  --primary-light: #f87171;
+
+  --primary-bg: rgba(
+    239,
+    68,
+    68,
+    0.12
+  );
+
+  --shadow-red:
+    0 10px 50px rgba(
+      239,
+      68,
+      68,
+      0.25
+    );
+
+  --shadow-dark:
+    0 20px 100px rgba(
+      0,
+      0,
+      0,
+      0.6
+    );
+
+  --radius: 32px;
+
+  --transition:
+    all 0.4s ease;
+}
+
+/* ================================
+   BODY
+================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(239, 68, 68, 0.08),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(127, 29, 29, 0.12),
+      transparent 40%
+    ),
+    var(--background);
+
+  color: var(--white);
+
+  overflow-x: hidden;
+
+  position: relative;
+}
+
+/* ================================
+   CUSTOM SCROLLBAR
+================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0b0b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    #ef4444,
+    #7f1d1d
+  );
+
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    to bottom,
+    #f87171,
+    #991b1b
+  );
+}
+
+/* ================================
+   TEXT SELECTION
+================================ */
+
+::selection {
+  background: rgba(
+    239,
+    68,
+    68,
+    0.3
+  );
+
+  color: white;
+}
+
+/* ================================
+   TAILWIND THEME COLORS
+================================ */
+
+@theme {
+  --color-primary-50: #fef2f2;
+  --color-primary-100: #fee2e2;
+  --color-primary-200: #fecaca;
+  --color-primary-300: #fca5a5;
+  --color-primary-400: #f87171;
+  --color-primary-500: #ef4444;
+  --color-primary-600: #dc2626;
+  --color-primary-700: #b91c1c;
+  --color-primary-800: #991b1b;
+  --color-primary-900: #7f1d1d;
+}
+
+/* ================================
+   GLASS EFFECT
+================================ */
+
+.glass {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.05
+  );
+
+  backdrop-filter: blur(18px);
+
+  -webkit-backdrop-filter: blur(
+    18px
+  );
+
+  border: 1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  box-shadow: var(
+    --shadow-dark
+  );
+
+  transition: var(
+    --transition
+  );
+}
+
+.glass:hover {
+  border-color: rgba(
+    239,
+    68,
+    68,
+    0.2
+  );
+
+  box-shadow:
+    0 20px 100px rgba(
+      0,
+      0,
+      0,
+      0.7
+    ),
+    0 0 50px rgba(
+      239,
+      68,
+      68,
+      0.08
+    );
+}
+
+/* ================================
+   BUTTON STYLES
+================================ */
+
+.btn-primary {
+  background: linear-gradient(
+    to right,
+    #dc2626,
+    #ef4444
+  );
+
+  color: white;
+
+  border: none;
+
+  padding: 14px 32px;
+
+  border-radius: 999px;
+
+  font-weight: 600;
+
+  transition: var(
+    --transition
+  );
+
+  box-shadow: var(
+    --shadow-red
+  );
+
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px)
+    scale(1.02);
+
+  background: linear-gradient(
+    to right,
+    #ef4444,
+    #f87171
+  );
+}
+
+/* ================================
+   INPUT STYLES
+================================ */
+
+input,
+textarea,
+select {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.04
+  );
+
+  border: 1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  color: white;
+
+  transition: var(
+    --transition
+  );
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(
+    255,
+    255,
+    255,
+    0.3
+  );
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+
+  border-color: rgba(
+    239,
+    68,
+    68,
+    0.5
+  );
+
+  box-shadow:
+    0 0 0 4px rgba(
+      239,
+      68,
+      68,
+      0.08
+    );
+}
+
+/* ================================
+   ANIMATED GLOW
+================================ */
+
+.red-glow {
+  position: absolute;
+
+  width: 500px;
+  height: 500px;
+
+  border-radius: 50%;
+
+  background: rgba(
+    239,
+    68,
+    68,
+    0.15
+  );
+
+  filter: blur(150px);
+
+  z-index: -1;
+}
+
+/* ================================
+   TYPOGRAPHY
+================================ */
+
+.luxury-title {
+  font-family:
+    "Playfair Display",
+    serif;
+
+  font-weight: 700;
+
+  letter-spacing: -2px;
+
+  line-height: 1;
+}
+
+.luxury-subtitle {
+  color: var(
+    --text-light
+  );
+
+  line-height: 1.8;
+}
+
+/* ================================
+   IMAGE HOVER EFFECT
+================================ */
+
+.image-hover {
+  overflow: hidden;
+}
+
+.image-hover img {
+  transition:
+    transform 1.5s ease;
+}
+
+.image-hover:hover img {
+  transform: scale(1.08);
+}
+
+/* ================================
+   CARD EFFECT
+================================ */
+
+.luxury-card {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.04
+  );
+
+  border: 1px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.08
+    );
+
+  backdrop-filter: blur(18px);
+
+  border-radius: 32px;
+
+  transition: var(
+    --transition
+  );
+
+  overflow: hidden;
+}
+
+.luxury-card:hover {
+  transform: translateY(-8px);
+
+  border-color: rgba(
+    239,
+    68,
+    68,
+    0.25
+  );
+
+  box-shadow:
+    0 20px 100px rgba(
+      0,
+      0,
+      0,
+      0.6
+    ),
+    0 0 60px rgba(
+      239,
+      68,
+      68,
+      0.12
+    );
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1024px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .glass,
+  .luxury-card {
+    border-radius: 24px;
+  }
+}
+
+
