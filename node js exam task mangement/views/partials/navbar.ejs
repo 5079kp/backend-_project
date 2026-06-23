@@ -1,0 +1,60 @@
+<nav>
+
+
+<h2>
+
+Task Manager
+
+</h2>
+
+
+
+<div>
+
+
+<a href="/tasks">
+
+My Tasks
+
+</a>
+
+
+
+
+<% if(user && user.role==="admin"){ %>
+
+
+
+<a href="/tasks">
+
+
+
+All User Tasks
+
+
+</a>
+
+<% } %>
+
+
+
+<a href="/tasks/add">
+
+Add Task
+
+</a>
+
+
+
+<a href="/logout">
+
+Logout
+
+</a>
+
+
+</div>
+
+
+
+</nav>

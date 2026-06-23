@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+
+<html>
+
+<head>
+
+
+<title>Tasks</title>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+</head>
+
+
+<body>
+
+
+<%- include("partials/navbar",{user:user}) %>
+
+
+<div class="container">
+
+
+<h1>
+
+Tasks
+
+</h1>
+
+
+
+<div class="grid">
+
+
+<%
+
+tasks.forEach(task=>{
+
+%>
+
+
+
+<div class="card">
+
+
+<h2>
+
+<%= task.title %>
+
+</h2>
+
+
+<p>
+
+<%= task.description %>
+
+</p>
+
+
+
+<% if(task.user){ %>
+
+
+<small>
+
+Owner:
+
+<%= task.user.username %>
+
+</small>
+
+
+<% } %>
+
+
+
+<div class="actions">
+
+<form class="inline" action="/tasks/delete/<%=task._id%>" method="POST">
+
+<button type="submit" class="btn btn-danger">Delete</button>
+
+</form>
+
+<a class="inline-link" href="/tasks/update/<%=task._id%>">Edit</a>
+
+</div>
+
+
+
+</div>
+
+
+
+
+<%
+
+})
+
+%>
+
+
+
+</div>
+
+
+</div>
+
+
+</body>
+
+
+</html>
